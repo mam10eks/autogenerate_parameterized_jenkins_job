@@ -1,8 +1,7 @@
 package com.empty_stack.autogenerate_parameterized_jenkins_job;
 
 import groovy.lang.Closure;
-import javaposse.jobdsl.dsl.Job;
-import javaposse.jobdsl.dsl.jobs.FreeStyleJob;
+import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 
 /**
  * 
@@ -12,23 +11,30 @@ import javaposse.jobdsl.dsl.jobs.FreeStyleJob;
 public class ParameterGenerator
 {
 	@SuppressWarnings("serial")
-	public static Closure<Void> parameters(Object o)
+	public static Closure<Void> generate()
 	{
-		System.out.println(nullSaveClassOfObject(o));
 		return new Closure<Void>(null)
 		{
 			@Override
 			public Void call()
 			{
-				System.out.println(nullSaveClassOfObject(getDelegate()));
+				BuildParametersContext context = getBuildParametersContextOrFail();
+				
+				context.booleanParam("First Boolean Param", false, "description 1");
+				context.booleanParam("second Boolean Param", true, "description 2");
 				
 				return null;
 			}
+			
+			private BuildParametersContext getBuildParametersContextOrFail()
+			{
+				if(getDelegate() instanceof BuildParametersContext)
+				{
+					return (BuildParametersContext) getDelegate();
+				}
+				
+				throw new RuntimeException("Illegal usage: Please use this as closure for parameters...");
+			}
 		};
-	}
-	
-	public static String nullSaveClassOfObject(Object o)
-	{
-		return o == null ? "null was passed" : o.getClass().toString();
 	}
 }
