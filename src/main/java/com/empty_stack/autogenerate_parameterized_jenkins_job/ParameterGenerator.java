@@ -11,4 +11,9 @@ public class ParameterGenerator
 	{
 		System.out.println(o.getClass());
 	}
+	
+	public static String bla(Object o)
+	{
+		return o == null ? "null was passed" : o.getClass().toString();
+	}
 }
