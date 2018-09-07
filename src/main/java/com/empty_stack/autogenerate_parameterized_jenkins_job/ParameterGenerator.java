@@ -9,10 +9,10 @@ public class ParameterGenerator
 {
 	public static void parameters(Object o)
 	{
-		System.out.println(o.getClass());
+		System.out.println(nullSaveClassOfObject(o));
 	}
 	
-	public static String bla(Object o)
+	public static String nullSaveClassOfObject(Object o)
 	{
 		return o == null ? "null was passed" : o.getClass().toString();
 	}
