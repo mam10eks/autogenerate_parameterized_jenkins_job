@@ -52,7 +52,11 @@ public class ParameterGenerator
 			else if(field.getType().isAssignableFrom(String.class)) {
 				field.setAccessible(true);
 				String value = (String) field.get(clazz.newInstance());
-				buildParametersContext.textParam(field.getName(), String.valueOf(value));
+				buildParametersContext.textParam(field.getName(), value);
+			} else if(field.getType().isAssignableFrom(Integer.class) || field.getType().getName().equalsIgnoreCase("int")) {
+				field.setAccessible(true);
+				Integer value = (Integer) field.get(clazz.newInstance());
+				buildParametersContext.textParam(field.getName(), value == null ? null : String.valueOf(value));
 			}
 		}
 		

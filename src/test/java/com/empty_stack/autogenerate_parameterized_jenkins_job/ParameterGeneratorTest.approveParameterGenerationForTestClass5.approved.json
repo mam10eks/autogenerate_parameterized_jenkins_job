@@ -1,18 +1,17 @@
 [
   {
-    "left": "firstParam",
-    "right": null
+    "left": "firstParam"
   },
   {
     "left": "secondParam",
-    "right": 112
+    "right": "112"
   },
   {
     "left": "thirdParam",
-    "right": 0
+    "right": "0"
   },
   {
     "left": "fourthParam",
-    "right": -112
+    "right": "-112"
   }
 ]

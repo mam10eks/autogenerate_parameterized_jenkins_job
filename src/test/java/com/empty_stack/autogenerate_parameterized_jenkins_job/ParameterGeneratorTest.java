@@ -117,7 +117,7 @@ public class ParameterGeneratorTest
 		Mockito
 			.doAnswer(ParameterGeneratorTest::addToParameters)
 			.when(parametersContext)
-			.textParam(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+			.textParam(ArgumentMatchers.anyString(), ArgumentMatchers.any());
 		
 		return parametersContext;
 	}
