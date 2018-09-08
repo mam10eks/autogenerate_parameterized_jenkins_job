@@ -40,7 +40,7 @@ public class Loader
 		if(classResourceFiles == null || classResourceFiles.isEmpty())
 		{
 			throw new IllegalArgumentException("A Loader needs to have some resources "
-				+ "where classes should be loaded. Got: "+ classResourceFiles);
+				+ "where classes should be loaded. Got: " + classResourceFiles);
 		}
 		
 		URL[] urls = mapToUrlArrayOrFail(classResourceFiles);
@@ -56,7 +56,7 @@ public class Loader
 		catch(ClassNotFoundException exception)
 		{
 			throw new RuntimeException("Could not load class '"+ className
-					+"' from resources locatet in "+ classResourceFiles);
+					+"' from resources located in " + classResourceFiles);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class Loader
 		}
 		else if(!file.exists())
 		{
-			throw new IllegalArgumentException("Couldnt retrieve the file '"+ 
+			throw new IllegalArgumentException("Couldn't retrieve the file '"+
 					file.getAbsolutePath()
 					+"' since it does not exist.");
 		}
@@ -86,7 +86,7 @@ public class Loader
 		}
 		catch(MalformedURLException exception)
 		{
-			throw new IllegalArgumentException("Couldnt transform the file '"+ 
+			throw new IllegalArgumentException("Couldn't transform the file '"+
 					file.getAbsolutePath()
 					+"' to a url.", exception);
 		}
