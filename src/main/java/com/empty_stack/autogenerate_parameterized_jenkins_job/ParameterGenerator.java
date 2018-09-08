@@ -4,7 +4,10 @@ import groovy.lang.Closure;
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.SneakyThrows;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +51,15 @@ public class ParameterGenerator
 	@SneakyThrows
 	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext context)
 	{
-		for(Triple<Field, String, Object> fieldWithNameAndDefaultValue : determineNameAndValueOfField(null, clazz, clazz.newInstance()))
+		Annotation[] annotations = clazz.getAnnotations();
+		String prefix = null;
+		for(Annotation annotation: annotations){
+			if(annotation.annotationType().getName().equals("org.springframework.boot.context.properties.ConfigurationProperties")) {
+				Method m = annotation.annotationType().getMethod("value");
+				prefix = (String) m.invoke(annotation);
+			}
+		}
+		for(Triple<Field, String, Object> fieldWithNameAndDefaultValue : determineNameAndValueOfField(prefix, clazz, clazz.newInstance()))
 		{
 			String name = fieldWithNameAndDefaultValue.getMiddle();
 			Object value = fieldWithNameAndDefaultValue.getRight();
