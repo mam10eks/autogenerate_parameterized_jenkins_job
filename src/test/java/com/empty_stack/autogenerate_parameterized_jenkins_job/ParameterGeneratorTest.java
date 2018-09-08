@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.Data;
@@ -51,6 +52,7 @@ public class ParameterGeneratorTest
 	}
 
 	@Data
+	@Accessors(chain = true)
 	public static class TestClass4
 	{
 		private String firstParam = "dsads";
@@ -80,6 +82,21 @@ public class ParameterGeneratorTest
 				.setSecondParam(2)
 				.setThirdParam(3)
 				.setFourthParam(42);
+	}
+	
+	@Data
+	@ConfigurationProperties("a-b-c")
+	public static class TestClass7
+	{
+		private Integer firstParam = 111;
+		
+		private TestClass4 secondParam;
+		
+		private TestClass4 thirdParam = new TestClass4()
+				.setFirstParam(null)
+				.setSecondParam("second");
+		
+		private Integer fourthParam;
 	}
 	
 	@Test
@@ -118,6 +135,11 @@ public class ParameterGeneratorTest
 		approveCreatedParametersForClass(TestClass6.class);
 	}
 
+	@Test
+	public void approveParameterGenerationForTestClass7()
+	{
+		approveCreatedParametersForClass(TestClass7.class);
+	}
 
 	private static void approveCreatedParametersForClass(Class<?> clazz)
 	{

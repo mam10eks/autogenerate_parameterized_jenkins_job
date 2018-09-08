@@ -5,6 +5,10 @@ import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Triple;
 
 /**
  * 
@@ -42,23 +46,55 @@ public class ParameterGenerator
 	}
 
 	@SneakyThrows
-	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext buildParametersContext) {
-		for(Field field: clazz.getDeclaredFields()) {
-			if(field.getType().getName().equalsIgnoreCase("boolean")){
-				field.setAccessible(true);
-				boolean b = (boolean) field.get(clazz.newInstance());
-				buildParametersContext.booleanParam(field.getName(), b);
+	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext context)
+	{
+		for(Triple<Field, String, Object> fieldWithNameAndDefaultValue : determineNameAndValueOfField(null, clazz, clazz.newInstance()))
+		{
+			String name = fieldWithNameAndDefaultValue.getMiddle();
+			Object value = fieldWithNameAndDefaultValue.getRight();
+			
+			if(fieldWithNameAndDefaultValue.getLeft().getType().getName().equalsIgnoreCase("boolean"))
+			{
+				context.booleanParam(name ,(boolean) value);
 			}
-			else if(field.getType().isAssignableFrom(String.class)) {
-				field.setAccessible(true);
-				String value = (String) field.get(clazz.newInstance());
-				buildParametersContext.textParam(field.getName(), value);
-			} else if(field.getType().isAssignableFrom(Integer.class) || field.getType().getName().equalsIgnoreCase("int")) {
-				field.setAccessible(true);
-				Integer value = (Integer) field.get(clazz.newInstance());
-				buildParametersContext.textParam(field.getName(), value == null ? null : String.valueOf(value));
+			else
+			{
+				context.textParam(name, value == null ? null : String.valueOf(value));
+			}
+		}
+	}
+
+	@SneakyThrows
+	private static List<Triple<Field, String, Object>> determineNameAndValueOfField(String prefix, Class<?> clazz, Object instance)
+	{
+		List<Triple<Field, String, Object>> ret = new ArrayList<>();
+		
+		for(Field field: clazz.getDeclaredFields())
+		{
+			String fieldName = (prefix == null || prefix.isEmpty() ? "" : prefix+".") + field.getName();
+			field.setAccessible(true);
+			Object value = field.get(instance);
+			
+			if(field.getType().getName().equalsIgnoreCase("boolean"))
+			{
+				ret.add(Triple.of(field, fieldName, (boolean) value));
+			}
+			else if(field.getType().isAssignableFrom(String.class))
+			{
+				ret.add(Triple.of(field, fieldName, (String) value));
+			}
+			else if(field.getType().isAssignableFrom(Integer.class) || field.getType().getName().equalsIgnoreCase("int"))
+			{
+				ret.add(Triple.of(field, fieldName, (Integer) value));
+			}
+			else
+			{
+				value = value == null ? field.getType().newInstance() : value;
+
+				ret.addAll(determineNameAndValueOfField(fieldName, field.getType(), value));
 			}
 		}
 		
+		return ret;
 	}
 }

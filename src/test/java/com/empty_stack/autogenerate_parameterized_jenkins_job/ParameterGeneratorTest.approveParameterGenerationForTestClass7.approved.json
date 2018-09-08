@@ -1,0 +1,23 @@
+[
+  {
+    "left": "a-b-c.firstParam",
+    "right": "111"
+  },
+  {
+    "left": "a-b-c.secondParam.firstParam",
+    "right": "dsads"
+  },
+  {
+    "left": "a-b-c.secondParam.secondParam"
+  },
+  {
+    "left": "a-b-c.thirdParam.firstParam"
+  },
+  {
+    "left": "a-b-c.thirdParam.secondParam",
+    "right": "second"
+  },
+  {
+    "left": "a-b-c.fourthParam"
+  }
+]
