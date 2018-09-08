@@ -4,8 +4,8 @@ import groovy.lang.Closure;
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.SneakyThrows;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -13,39 +13,52 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Triple;
 
+import com.empty_stack.autogenerate_parameterized_jenkins_job.loading.Loader;
+
 /**
  * 
  * @author Maik Fröbe
  *
  */
-public class ParameterGenerator
+@SuppressWarnings("serial")
+public class ParameterGenerator extends Closure<Void>
 {
-	@SuppressWarnings("serial")
-	public static Closure<Void> generate()
+	List<File> javaResources;
+	
+	List<String> clazzes;
+	
+	public ParameterGenerator(List<File> javaResources, List<String> clazzes)
 	{
-		return new Closure<Void>(null)
-		{
-			@Override
-			public Void call()
-			{
-				BuildParametersContext context = getBuildParametersContextOrFail();
-				
-				context.booleanParam("First Boolean Param", false, "description 1");
-				context.booleanParam("second Boolean Param", true, "description 2");
-				
-				return null;
-			}
+		super(null);
+		
+		this.javaResources = javaResources;
+		this.clazzes = clazzes;
+	}
+	
+	@Override
+	public Void call()
+	{
+		BuildParametersContext context = getBuildParametersContextOrFail();
+		Loader loader = Loader.builder()
+				.classNames(clazzes)
+				.classResourceFiles(javaResources)
+				.build();
+		
+		List<Class<?>> parsedClazzes = loader.loadClasses();
+		
+		parsedClazzes.stream().forEach(clazz -> addClassParametersToContext(clazz, context));
+		
+		return null;
+	}
 			
-			private BuildParametersContext getBuildParametersContextOrFail()
-			{
-				if(getDelegate() instanceof BuildParametersContext)
-				{
-					return (BuildParametersContext) getDelegate();
-				}
+	private BuildParametersContext getBuildParametersContextOrFail()
+	{
+		if(getDelegate() instanceof BuildParametersContext)
+		{
+			return (BuildParametersContext) getDelegate();
+		}
 				
-				throw new RuntimeException("Illegal usage: Please use this as closure for parameters...");
-			}
-		};
+		throw new RuntimeException("Illegal usage: Please use this as closure for parameters...");
 	}
 
 	@SneakyThrows

@@ -10,11 +10,14 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import com.empty_stack.autogenerate_parameterized_jenkins_job.loading.LoaderResources;
+
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.Data;
 
-import java.lang.annotation.Annotation;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ParameterGeneratorTest
@@ -141,7 +144,33 @@ public class ParameterGeneratorTest
 	{
 		approveCreatedParametersForClass(TestClass7.class);
 	}
+	
+	@Test
+	public void bigIntegrationTestWithRealJar()
+	{
+		List<File> classResources = Arrays.asList(LoaderResources.EXAMPLE_JAR);
+		List<String> classes = Arrays.asList("a.MyExample");
+		
+		ParameterGenerator parameterGenerator = new ParameterGenerator(classResources, classes);
+		parameterGenerator.setDelegate(context);
+		parameterGenerator.call();
+		
+		Approvals.verifyAsJson(parameters);
+	}
 
+	@Test
+	public void bigIntegrationTestWithLargeRealJar()
+	{
+		List<File> classResources = Arrays.asList(LoaderResources.EXAMPLE_JAR);
+		List<String> classes = Arrays.asList("b.MyExample");
+		
+		ParameterGenerator parameterGenerator = new ParameterGenerator(classResources, classes);
+		parameterGenerator.setDelegate(context);
+		parameterGenerator.call();
+		
+		Approvals.verifyAsJson(parameters);
+	}
+	
 	private static void approveCreatedParametersForClass(Class<?> clazz)
 	{
 		ParameterGenerator.addClassParametersToContext(clazz, context);
