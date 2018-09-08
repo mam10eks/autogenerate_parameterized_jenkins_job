@@ -2,6 +2,9 @@ package com.empty_stack.autogenerate_parameterized_jenkins_job;
 
 import groovy.lang.Closure;
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
+import lombok.SneakyThrows;
+
+import java.lang.reflect.Field;
 
 /**
  * 
@@ -38,14 +41,14 @@ public class ParameterGenerator
 		};
 	}
 
+	@SneakyThrows
 	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext buildParametersContext) {
-		if("TestClass".equals(clazz.getSimpleName()))
-		{
-			buildParametersContext.booleanParam("bla", true);
-		}
-		else
-		{
-			buildParametersContext.booleanParam("bla", false);			
+		for(Field field: clazz.getDeclaredFields()){
+			if(field.getType().getName().equalsIgnoreCase("boolean")){
+				field.setAccessible(true);
+				boolean b = (boolean) field.get(clazz.newInstance());
+				buildParametersContext.booleanParam(field.getName(), b);
+			}
 		}
 		
 	}

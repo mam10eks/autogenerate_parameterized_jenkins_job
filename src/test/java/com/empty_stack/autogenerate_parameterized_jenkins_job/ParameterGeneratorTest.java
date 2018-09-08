@@ -9,19 +9,21 @@ import org.mockito.Mockito;
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.Data;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class ParameterGeneratorTest
 {
-	private static Map<String, Object> parameters;
+	private static SortedMap<String, Object> parameters;
 	
 	private static BuildParametersContext context;
 	
 	@Before
 	public void setup()
 	{
-		parameters = new HashMap<>();
+		parameters = new TreeMap<>();
 		context = mock(parameters);
 	}
 	
@@ -46,6 +48,18 @@ public class ParameterGeneratorTest
 		
 		private boolean thirdParam = true;
 	}
+
+	@Data
+	public static class TestClass4
+	{
+		private boolean firstParam;
+
+		private boolean secondParam = false;
+
+		private boolean thirdParam = true;
+
+		private String fourthParam;
+	}
 	
 	@Test
 	public void approveParameterGenerationForTestClass()
@@ -63,6 +77,12 @@ public class ParameterGeneratorTest
 	public void approveParameterGenerationForTestClass3()
 	{
 		approveCreatedParametersForClass(TestClass3.class);
+	}
+
+	@Test
+	public void approveParameterGenerationForTestClass4()
+	{
+		approveCreatedParametersForClass(TestClass4.class);
 	}
 
 	private static void approveCreatedParametersForClass(Class<?> clazz)
