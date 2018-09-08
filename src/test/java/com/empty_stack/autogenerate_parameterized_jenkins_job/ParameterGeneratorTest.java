@@ -18,6 +18,12 @@ public class ParameterGeneratorTest
 	{
 		private boolean bla = true;
 	}
+
+	@Data
+	public static class TestClass2
+	{
+		private boolean bla;
+	}
 	
 	@Test
 	public void approveParameterGenerationForTestClass()
@@ -25,6 +31,16 @@ public class ParameterGeneratorTest
 		Map<String, Object> map = new HashMap<>();
 		BuildParametersContext parametersContext = mock(map);
 		ParameterGenerator.addClassParametersToContext(TestClass.class, parametersContext);
+
+		Approvals.verifyAsJson(map);
+	}
+
+	@Test
+	public void approveParameterGenerationForTestClass2()
+	{
+		Map<String, Object> map = new HashMap<>();
+		BuildParametersContext parametersContext = mock(map);
+		ParameterGenerator.addClassParametersToContext(TestClass2.class, parametersContext);
 
 		Approvals.verifyAsJson(map);
 	}
