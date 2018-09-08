@@ -10,6 +10,10 @@
 
 	<name>autogenerate-parameterized-jenkins-job</name>
 
+	<properties>
+		<repository.non-maven-libs>file://${project.basedir}${file.separator}src${file.separator}non-maven-libs${file.separator}</repository.non-maven-libs>
+	</properties>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -17,6 +21,10 @@
 	</parent>
 
 	<repositories>
+		<repository>
+			<id>project-local-repo</id>
+			<url>${repository.non-maven-libs}</url>
+		</repository>
 		<repository>
 			<id>spring-release</id>
 			<url>http://repo.spring.io/libs-release</url>
@@ -47,6 +55,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.approvals</groupId>
+			<artifactId>approvaltest-java</artifactId>
+			<version>0.19</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
