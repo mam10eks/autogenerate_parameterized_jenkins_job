@@ -39,4 +39,18 @@ public class LoaderTest
 
 		Assert.assertEquals("MyExample", clazzes.get(0).getName());
 	}
+	
+	@Test
+	public void checkThatExampleJarBeLoaded()
+	{
+		Loader loader = Loader.builder()
+				.className("a.MyExample")
+				.classResourceFile(LoaderResources.EXAMPLE_JAR)
+				.build();
+		
+		List<Class<?>> clazzes = loader.loadClasses();
+		Assert.assertEquals(1, clazzes.size());
+
+		Assert.assertEquals("a.MyExample", clazzes.get(0).getName());
+	}
 }

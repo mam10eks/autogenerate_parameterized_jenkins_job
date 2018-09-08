@@ -19,6 +19,8 @@ public class LoaderResources
 	
 	public static final File CLASS_WITH_TWO_BOOLEANS_AND_SINGLE_STRING_AND_NO_JAVADOC = preparedTestResource("class_with_two_booleans_single_string_and_no_javadoc");
 	
+	public static final File EXAMPLE_JAR = preparedTestResource("jar_with_multiple_classes_no_javadoc").toPath().resolve("example.jar").toFile();
+	
 	private static File preparedTestResource(String testResource)
 	{
 		return Paths.get("src")
