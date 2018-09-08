@@ -31,7 +31,7 @@ public class IllegalLoaderUsageTest
 	public void checkThatNiceExceptionIsThrownForNonExistingFileAtTheStart()
 	{
 		exception.expect(IllegalArgumentException.class);
-		exception.expectMessage("Couldnt retrieve the file '/bla' since it does not exist.");
+		exception.expectMessage("Couldn't retrieve the file '/bla' since it does not exist.");
 		
 		Loader.builder()
 			.classResourceFile(file("/bla", false))
@@ -44,7 +44,7 @@ public class IllegalLoaderUsageTest
 	public void checkThatNiceExceptionIsThrownForNonExistingFileAtTheEnd()
 	{
 		exception.expect(IllegalArgumentException.class);
-		exception.expectMessage("Couldnt retrieve the file '/doesNotExist' since it does not exist.");
+		exception.expectMessage("Couldn't retrieve the file '/doesNotExist' since it does not exist.");
 		
 		Loader.builder()
 			.classResourceFile(file("/bla", true))
@@ -69,7 +69,7 @@ public class IllegalLoaderUsageTest
 	public void checkThatNiceExceptionIsThrownForNonExistingClass()
 	{
 		exception.expect(RuntimeException.class);
-		exception.expectMessage("Could not load class 'DoesNotExist' from resources locatet in");
+		exception.expectMessage("Could not load class 'DoesNotExist' from resources located in");
 		exception.expectMessage("src/test/resources/example_classes/no_classes");
 		
 		Loader.builder()
