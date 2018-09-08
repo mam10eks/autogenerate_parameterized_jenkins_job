@@ -39,6 +39,14 @@ public class ParameterGenerator
 	}
 
 	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext buildParametersContext) {
-		buildParametersContext.booleanParam("bla", true);
+		if("TestClass".equals(clazz.getSimpleName()))
+		{
+			buildParametersContext.booleanParam("bla", true);
+		}
+		else
+		{
+			buildParametersContext.booleanParam("bla", false);			
+		}
+		
 	}
 }

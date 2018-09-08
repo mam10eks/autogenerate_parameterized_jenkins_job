@@ -1,6 +1,7 @@
 package com.empty_stack.autogenerate_parameterized_jenkins_job;
 
 import org.approvaltests.Approvals;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -13,6 +14,17 @@ import java.util.Map;
 
 public class ParameterGeneratorTest
 {
+	private static Map<String, Object> parameters;
+	
+	private static BuildParametersContext context;
+	
+	@Before
+	public void setup()
+	{
+		parameters = new HashMap<>();
+		context = mock(parameters);
+	}
+	
 	@Data
 	public static class TestClass
 	{
@@ -25,27 +37,41 @@ public class ParameterGeneratorTest
 		private boolean bla;
 	}
 	
+	@Data
+	public static class TestClass3
+	{
+		private boolean firstParam;
+		
+		private boolean secondParam = false;
+		
+		private boolean thirdParam = true;
+	}
+	
 	@Test
 	public void approveParameterGenerationForTestClass()
 	{
-		Map<String, Object> map = new HashMap<>();
-		BuildParametersContext parametersContext = mock(map);
-		ParameterGenerator.addClassParametersToContext(TestClass.class, parametersContext);
-
-		Approvals.verifyAsJson(map);
+		approveCreatedParametersForClass(TestClass.class);
 	}
 
 	@Test
 	public void approveParameterGenerationForTestClass2()
 	{
-		Map<String, Object> map = new HashMap<>();
-		BuildParametersContext parametersContext = mock(map);
-		ParameterGenerator.addClassParametersToContext(TestClass2.class, parametersContext);
-
-		Approvals.verifyAsJson(map);
+		approveCreatedParametersForClass(TestClass2.class);
+	}
+	
+	@Test
+	public void approveParameterGenerationForTestClass3()
+	{
+		approveCreatedParametersForClass(TestClass3.class);
 	}
 
-	private BuildParametersContext mock(Map<String, Object> paramValues) {
+	private static void approveCreatedParametersForClass(Class<?> clazz)
+	{
+		ParameterGenerator.addClassParametersToContext(clazz, context);
+		Approvals.verifyAsJson(parameters);
+	}
+	
+	private static BuildParametersContext mock(Map<String, Object> paramValues) {
 		BuildParametersContext parametersContext = Mockito.mock(BuildParametersContext.class);
 		Mockito
 				.doAnswer(context -> paramValues.put((String) context.getArguments()[0], context.getArguments()[1]))
