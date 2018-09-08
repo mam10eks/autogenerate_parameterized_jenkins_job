@@ -1,5 +1,6 @@
 package com.empty_stack.autogenerate_parameterized_jenkins_job;
 
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.tuple.Pair;
 import org.approvaltests.Approvals;
 import org.junit.Before;
@@ -58,6 +59,7 @@ public class ParameterGeneratorTest
 	}
 	
 	@Data
+	@Accessors(chain = true)
 	public static class TestClass5
 	{
 		private Integer firstParam;
@@ -67,6 +69,17 @@ public class ParameterGeneratorTest
 		private int thirdParam;
 
 		private Integer fourthParam = -112;
+	}
+
+	@Data
+	public static class TestClass6
+	{
+		private TestClass5 firstParam;
+		private TestClass5 secondParam = new TestClass5()
+				.setFirstParam(1)
+				.setSecondParam(2)
+				.setThirdParam(3)
+				.setFourthParam(42);
 	}
 	
 	@Test
@@ -97,6 +110,12 @@ public class ParameterGeneratorTest
 	public void approveParameterGenerationForTestClass5()
 	{
 		approveCreatedParametersForClass(TestClass5.class);
+	}
+
+	@Test
+	public void approveParameterGenerationForTestClass6()
+	{
+		approveCreatedParametersForClass(TestClass6.class);
 	}
 
 

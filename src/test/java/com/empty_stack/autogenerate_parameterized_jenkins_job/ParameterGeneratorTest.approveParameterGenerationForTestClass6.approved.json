@@ -1,0 +1,21 @@
+[
+  {
+    "left": "firstParam"
+  },
+  {
+    "left": "secondParam.firstParam",
+    "right": "1"
+  },
+  {
+    "left": "secondParam.secondParam",
+    "right": "2"
+  },
+  {
+    "left": "secondParam.thirdParam",
+    "right": "3"
+  },
+  {
+    "left": "secondParam.fourthParam",
+    "right": "42"
+  }
+]
