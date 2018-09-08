@@ -43,11 +43,16 @@ public class ParameterGenerator
 
 	@SneakyThrows
 	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext buildParametersContext) {
-		for(Field field: clazz.getDeclaredFields()){
+		for(Field field: clazz.getDeclaredFields()) {
 			if(field.getType().getName().equalsIgnoreCase("boolean")){
 				field.setAccessible(true);
 				boolean b = (boolean) field.get(clazz.newInstance());
 				buildParametersContext.booleanParam(field.getName(), b);
+			}
+			else if(field.getType().isAssignableFrom(String.class)) {
+				field.setAccessible(true);
+				String value = (String) field.get(clazz.newInstance());
+				buildParametersContext.textParam(field.getName(), String.valueOf(value));
 			}
 		}
 		

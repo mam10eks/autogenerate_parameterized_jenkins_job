@@ -1,6 +1,10 @@
-{
-  "firstParam": false,
-  "secondParam": false,
-  "thirdParam": true,
-  "fourthParam": null
-}
+[
+  {
+    "left": "firstParam",
+    "right": "dsads"
+  },
+  {
+    "left": "secondParam",
+    "right": "null"
+  }
+]

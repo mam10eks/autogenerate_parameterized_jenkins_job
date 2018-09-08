@@ -1,3 +1,6 @@
-{
-  "bla": true
-}
+[
+  {
+    "left": "bla",
+    "right": true
+  }
+]
