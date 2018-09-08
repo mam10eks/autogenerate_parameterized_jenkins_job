@@ -37,4 +37,8 @@ public class ParameterGenerator
 			}
 		};
 	}
+
+	static void addClassParametersToContext(Class<?> clazz, BuildParametersContext buildParametersContext) {
+		buildParametersContext.booleanParam("bla", true);
+	}
 }
