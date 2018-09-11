@@ -1,0 +1,13 @@
+[
+  {
+    "left": "firstBool",
+    "right": false
+  },
+  {
+    "left": "secondBool",
+    "right": true
+  },
+  {
+    "left": "singleString"
+  }
+]
