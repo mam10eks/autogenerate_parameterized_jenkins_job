@@ -1,0 +1,47 @@
+[
+  {
+    "left": "firstLong",
+    "right": "21"
+  },
+  {
+    "left": "secondLong"
+  },
+  {
+    "left": "thirdLong",
+    "right": "0"
+  },
+  {
+    "left": "fourthLong",
+    "right": "11"
+  },
+  {
+    "left": "firstDouble",
+    "right": "1.1"
+  },
+  {
+    "left": "secondDouble"
+  },
+  {
+    "left": "thirdDouble",
+    "right": "0.0"
+  },
+  {
+    "left": "fourthDouble",
+    "right": "4.0"
+  },
+  {
+    "left": "firstFloat",
+    "right": "2.2"
+  },
+  {
+    "left": "secondFloat"
+  },
+  {
+    "left": "thirdFloat",
+    "right": "0.0"
+  },
+  {
+    "left": "fifthFloat",
+    "right": "2.3"
+  }
+]

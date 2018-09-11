@@ -8,6 +8,7 @@ import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,11 @@ public class ParameterGenerator extends Closure<Void>
 		
 		for(Field field: clazz.getDeclaredFields())
 		{
+			if(Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers()))
+			{
+				continue;
+			}
+			
 			String fieldName = (prefix == null || prefix.isEmpty() ? "" : prefix+".") + field.getName();
 			field.setAccessible(true);
 			Object value = field.get(instance);
@@ -110,6 +116,18 @@ public class ParameterGenerator extends Closure<Void>
 			else if(field.getType().isAssignableFrom(Integer.class) || field.getType().getName().equalsIgnoreCase("int"))
 			{
 				ret.add(Triple.of(field, fieldName, (Integer) value));
+			}
+			else if(field.getType().isAssignableFrom(Long.class) || field.getType().getName().equalsIgnoreCase("long"))
+			{
+				ret.add(Triple.of(field, fieldName, (Long) value));
+			}
+			else if(field.getType().isAssignableFrom(Double.class) || field.getType().getName().equalsIgnoreCase("double"))
+			{
+				ret.add(Triple.of(field, fieldName, (Double) value));
+			}
+			else if(field.getType().isAssignableFrom(Float.class) || field.getType().getName().equalsIgnoreCase("float"))
+			{
+				ret.add(Triple.of(field, fieldName, (Float) value));
 			}
 			else
 			{

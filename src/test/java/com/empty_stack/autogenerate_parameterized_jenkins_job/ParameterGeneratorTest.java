@@ -5,21 +5,19 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.approvaltests.Approvals;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import com.empty_stack.autogenerate_parameterized_jenkins_job.loading.LoaderResources;
 
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.Data;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 public class ParameterGeneratorTest
 {
 	private static List<Pair<String, Object>> parameters;
@@ -30,7 +28,7 @@ public class ParameterGeneratorTest
 	public void setup()
 	{
 		parameters = new ArrayList<>();
-		context = mock();
+		context = MockingUtils.mockBuildParametersContext(parameters);
 	}
 	
 	@Data
@@ -103,6 +101,44 @@ public class ParameterGeneratorTest
 		private Integer fourthParam;
 	}
 	
+	@Data
+	public static class TestClass8
+	{
+		private Long firstLong = 21l;
+
+		private Long secondLong;
+		
+		private long thirdLong;
+		
+		private long fourthLong = 11;
+		
+		private Double firstDouble = 1.1;
+		
+		private Double secondDouble;
+		
+		private double thirdDouble;
+		
+		private double fourthDouble = 4;
+		
+		private Float firstFloat = 2.2f;
+		
+		private Float secondFloat;
+		
+		private float thirdFloat;
+		
+		private float fifthFloat = 2.3f;
+	}
+	
+//	@Data
+//	public static class TestClass9
+//	{
+//		private File firstFile;
+//		
+//		private File secondFile = new File("a");
+//		
+//		private File thirdFile = new File("b");
+//	}
+	
 	@Test
 	public void approveParameterGenerationForTestClass()
 	{
@@ -146,71 +182,20 @@ public class ParameterGeneratorTest
 	}
 	
 	@Test
-	public void bigIntegrationTestWithRealJar()
+	public void approveParemeterGenerationForTestClass8()
 	{
-		List<File> classResources = Arrays.asList(LoaderResources.EXAMPLE_JAR);
-		List<String> classes = Arrays.asList("a.MyExample");
-		
-		ParameterGenerator parameterGenerator = new ParameterGenerator(classResources, classes);
-		parameterGenerator.setDelegate(context);
-		parameterGenerator.call();
-		
-		Approvals.verifyAsJson(parameters);
-	}
-
-	@Test
-	public void bigIntegrationTestWithLargeRealJar()
-	{
-		List<File> classResources = Arrays.asList(LoaderResources.EXAMPLE_JAR);
-		List<String> classes = Arrays.asList("b.MyExample");
-		
-		ParameterGenerator parameterGenerator = new ParameterGenerator(classResources, classes);
-		parameterGenerator.setDelegate(context);
-		parameterGenerator.call();
-		
-		Approvals.verifyAsJson(parameters);
+		approveCreatedParametersForClass(TestClass8.class);
 	}
 	
-	@Test
-	public void bigIntegrationTestWithJarWithEmbeddedJar()
-	{
-		List<File> classResources = Arrays.asList(LoaderResources.EXAMPLE_JAR_WITH_EMBEDDED_JAR);
-		List<String> classes = Arrays.asList("b.MyExample");
-		
-		ParameterGenerator parameterGenerator = new ParameterGenerator(classResources, classes);
-		parameterGenerator.setDelegate(context);
-		parameterGenerator.call();
-		
-		Approvals.verifyAsJson(parameters);
-	}
+//	@Test
+//	public void approveParemeterGenerationForTestClass9()
+//	{
+//		approveCreatedParametersForClass(TestClass9.class);
+//	}
 	
 	private static void approveCreatedParametersForClass(Class<?> clazz)
 	{
 		ParameterGenerator.addClassParametersToContext(clazz, context);
 		Approvals.verifyAsJson(parameters);
-	}
-	
-	private static BuildParametersContext mock() {
-		BuildParametersContext parametersContext = Mockito.mock(BuildParametersContext.class);
-		
-		Mockito
-			.doAnswer(ParameterGeneratorTest::addToParameters)
-			.when(parametersContext)
-			.booleanParam(ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean());
-		
-		Mockito
-			.doAnswer(ParameterGeneratorTest::addToParameters)
-			.when(parametersContext)
-			.textParam(ArgumentMatchers.anyString(), ArgumentMatchers.any());
-		
-		return parametersContext;
-	}
-	
-	private static Object addToParameters(InvocationOnMock invocation)
-	{
-		Pair<String, Object> pair = Pair.of((String) invocation.getArguments()[0], invocation.getArguments()[1]); 
-		parameters.add(pair);
-		
-		return pair.getValue();
 	}
 }
