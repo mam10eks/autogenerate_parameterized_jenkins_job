@@ -171,6 +171,19 @@ public class ParameterGeneratorTest
 		Approvals.verifyAsJson(parameters);
 	}
 	
+	@Test
+	public void bigIntegrationTestWithJarWithEmbeddedJar()
+	{
+		List<File> classResources = Arrays.asList(LoaderResources.EXAMPLE_JAR_WITH_EMBEDDED_JAR);
+		List<String> classes = Arrays.asList("b.MyExample");
+		
+		ParameterGenerator parameterGenerator = new ParameterGenerator(classResources, classes);
+		parameterGenerator.setDelegate(context);
+		parameterGenerator.call();
+		
+		Approvals.verifyAsJson(parameters);
+	}
+	
 	private static void approveCreatedParametersForClass(Class<?> clazz)
 	{
 		ParameterGenerator.addClassParametersToContext(clazz, context);

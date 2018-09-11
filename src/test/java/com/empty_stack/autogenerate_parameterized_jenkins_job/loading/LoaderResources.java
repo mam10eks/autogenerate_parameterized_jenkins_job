@@ -21,6 +21,8 @@ public class LoaderResources
 	
 	public static final File EXAMPLE_JAR = preparedTestResource("jar_with_multiple_classes_no_javadoc").toPath().resolve("example.jar").toFile();
 	
+	public static final File EXAMPLE_JAR_WITH_EMBEDDED_JAR = preparedTestResource("jar_with_embedded_jar").toPath().resolve("with_embedded_jar.jar").toFile();
+	
 	private static File preparedTestResource(String testResource)
 	{
 		return Paths.get("src")
