@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 import lombok.Data;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,15 +130,15 @@ public class ParameterGeneratorTest
 		private float fifthFloat = 2.3f;
 	}
 	
-//	@Data
-//	public static class TestClass9
-//	{
-//		private File firstFile;
-//		
-//		private File secondFile = new File("a");
-//		
-//		private File thirdFile = new File("b");
-//	}
+	@Data
+	public static class TestClass9
+	{
+		private File firstFile;
+		
+		private File secondFile = new File("a");
+		
+		private File thirdFile = new File("b");
+	}
 	
 	@Test
 	public void approveParameterGenerationForTestClass()
@@ -187,11 +188,11 @@ public class ParameterGeneratorTest
 		approveCreatedParametersForClass(TestClass8.class);
 	}
 	
-//	@Test
-//	public void approveParemeterGenerationForTestClass9()
-//	{
-//		approveCreatedParametersForClass(TestClass9.class);
-//	}
+	@Test
+	public void approveParemeterGenerationForTestClass9()
+	{
+		approveCreatedParametersForClass(TestClass9.class);
+	}
 	
 	private static void approveCreatedParametersForClass(Class<?> clazz)
 	{

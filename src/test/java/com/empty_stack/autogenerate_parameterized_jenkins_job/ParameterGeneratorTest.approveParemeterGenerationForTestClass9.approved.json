@@ -1,0 +1,13 @@
+[
+  {
+    "left": "firstFile"
+  },
+  {
+    "left": "secondFile.path",
+    "right": "a"
+  },
+  {
+    "left": "thirdFile.path",
+    "right": "b"
+  }
+]
