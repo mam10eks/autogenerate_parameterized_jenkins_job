@@ -16,7 +16,7 @@ import javaposse.jobdsl.dsl.helpers.BuildParametersContext;
 
 /**
  * 
- * @author Maik Fröbe
+ * @author Maik Fröbe, Auryn Engel
  *
  */
 public class CompleteIntegrationTests

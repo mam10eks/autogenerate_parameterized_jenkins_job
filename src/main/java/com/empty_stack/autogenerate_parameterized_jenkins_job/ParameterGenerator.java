@@ -18,7 +18,7 @@ import com.empty_stack.autogenerate_parameterized_jenkins_job.loading.Loader;
 
 /**
  * 
- * @author Maik Fröbe
+ * @author Maik Fröbe, Auryn Engel
  *
  */
 @SuppressWarnings("serial")

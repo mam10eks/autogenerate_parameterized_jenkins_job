@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * 
- * @author Maik Fröbe
+ * @author Maik Fröbe, Auryn Engel
  *
  */
 public class ParameterGeneratorTest
