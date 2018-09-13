@@ -188,11 +188,11 @@ public class ParameterGeneratorTest
 		approveCreatedParametersForClass(TestClass8.class);
 	}
 	
-	@Test
-	public void approveParemeterGenerationForTestClass9()
-	{
-		approveCreatedParametersForClass(TestClass9.class);
-	}
+//	@Test
+//	public void approveParemeterGenerationForTestClass9()
+//	{
+//		approveCreatedParametersForClass(TestClass9.class);
+//	}
 	
 	private static void approveCreatedParametersForClass(Class<?> clazz)
 	{
